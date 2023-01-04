@@ -64,7 +64,7 @@ const handleSubmit = async (e) => {
   loader(messageDiv)
 
   // Fetch Data from the Server
-  const response = await fetch("http://localhost:5000", {
+  const response = await fetch("https://ettiai.onrender.com/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt: getPrompt }),
