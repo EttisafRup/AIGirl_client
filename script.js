@@ -1,5 +1,5 @@
-import bot from "./assets/bot.svg"
-import user from "./assets/user.svg"
+import bot from "./assets/girl.jpg"
+import user from "./assets/boy.jpg"
 
 const form = document.querySelector("form")
 const chatContainer = document.querySelector("#chat_container")
@@ -13,7 +13,7 @@ function loader(elm) {
     if (elm.textContent === "....") {
       elm.textContent = ""
     }
-  }, 20)
+  }, 50)
 }
 
 function typeText(elm, txt) {
@@ -64,7 +64,7 @@ const handleSubmit = async (e) => {
   loader(messageDiv)
 
   // Fetch Data from the Server
-  const response = await fetch("https://ettiai.onrender.com/", {
+  const response = await fetch("https://aigirl.onrender.com/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt: getPrompt }),
