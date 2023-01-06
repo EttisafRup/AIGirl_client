@@ -1,3 +1,4 @@
+import axios from "axios"
 import bot from "./assets/girl.jpg"
 import user from "./assets/boy.jpg"
 
@@ -28,11 +29,6 @@ function typeText(elm, txt) {
   }, 20)
 }
 
-function generateUniqueID() {
-  const _time_ = Date.now()
-  return `id-${_time_}`
-}
-
 function chatStripe(isAi, value, uniqueID) {
   return `
     <div class="wrapper ${isAi && "ai"}" style="height: "50px">
@@ -46,6 +42,11 @@ function chatStripe(isAi, value, uniqueID) {
       </div>
     </div>
     `
+}
+
+function generateUniqueID() {
+  const _time_ = Date.now()
+  return `id-${_time_}`
 }
 
 const handleSubmit = async (e) => {
@@ -64,32 +65,46 @@ const handleSubmit = async (e) => {
   loader(messageDiv)
 
   // Fetch Data from the Server
-  const response = await fetch("https://aigirl.onrender.com/", {
+  const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: getPrompt }),
-  })
+    url: "https://waifu.p.rapidapi.com/path",
+    params: {
+      user_id: "sample_user_id",
+      message: `${getPrompt}`,
+      from_name: "Boy",
+      to_name: "Girl",
+      situation: "Girl loves Boy.",
+      translate_from: "auto",
+      translate_to: "auto",
+    },
+    headers: {
+      "content-type": "application/json",
+      "X-RapidAPI-Key": "c1b704edf2mshf06ff1765e4a2e2p17165cjsn1a7773d11c37",
+      "X-RapidAPI-Host": "waifu.p.rapidapi.com",
+    },
+    data: "{}",
+  }
+
+  const response = await axios.request(options)
+  console.log(response)
 
   clearInterval(loadInterval)
   messageDiv.innerHTML = ""
 
-  if (response.ok) {
-    const data = await response.json()
-    const trimmed = data.msg.replace("\n", "")
-
+  if (response.data) {
+    const trimmed = response.data
     console.log(messageDiv)
 
     typeText(messageDiv, trimmed)
     console.log(trimmed)
   } else {
-    const err = await response.text()
     messageDiv.innerHTML = "Something went Wrong, try again later.!"
   }
 }
 
 form.addEventListener("submit", handleSubmit)
-form.addEventListener("keyup", (e) => {
-  if (e.keyCode === 13) {
+form.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
     handleSubmit(e)
   }
 })
