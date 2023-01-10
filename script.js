@@ -67,36 +67,33 @@ const handleSubmit = async (e) => {
   // Fetch Data from the Server
   const options = {
     method: "POST",
-    url: "https://waifu.p.rapidapi.com/path",
+    url: import.meta.env.VITE_PATH,
     params: {
       user_id: "sample_user_id",
       message: `${getPrompt}`,
-      from_name: "Boy",
-      to_name: "Girl",
-      situation: "Girl loves Boy.",
+      from_name: "Rup",
+      to_name: "Shizuka",
+      situation: "Shizuka Loves Rup.",
       translate_from: "auto",
       translate_to: "auto",
     },
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "c1b704edf2mshf06ff1765e4a2e2p17165cjsn1a7773d11c37",
-      "X-RapidAPI-Host": "waifu.p.rapidapi.com",
+      "X-RapidAPI-Key": import.meta.env.VITE_SEC_KEY,
+      "X-RapidAPI-Host": import.meta.env.VITE_SEC_HOST,
     },
     data: "{}",
   }
 
   const response = await axios.request(options)
-  console.log(response)
 
   clearInterval(loadInterval)
   messageDiv.innerHTML = ""
 
   if (response.data) {
     const trimmed = response.data
-    console.log(messageDiv)
 
     typeText(messageDiv, trimmed)
-    console.log(trimmed)
   } else {
     messageDiv.innerHTML = "Something went Wrong, try again later.!"
   }
